@@ -1,17 +1,18 @@
+// Imports
 var app = require("express")();
-var bodyParser = require('body-parser');
+var body_parser = require('body-parser');
 var key_management = require("./handlers/key_management")
 var authenticate = require("./handlers/authenticate")
 var validate = require("./handlers/validate")
 
-// Require redis and create a redis client object with the default hostname(127.0.0.1) and port(6379)
-
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
-// parse application/json
-app.use(bodyParser.json());
+// Used to manage inputs in requests
+app.use(body_parser.urlencoded({ extended: false }));
+app.use(body_parser.json());
 
 
+// Routes
+
+// Validate the data and then authenticate each request
 app.post(
     [
         "/incremental-feed-upload/set-secret-key/:site_name/:secret_key?",
@@ -28,17 +29,11 @@ app.post(
 );
 
 
-
-
-
+// Sets the secret key
+// If a key already exists, validate that key from redis before changing the secret key
 app.post("/incremental-feed-upload/set-secret-key/:site_name/:secret_key?", key_management.set_secret_key);
 
-app.post("/incremental-feed-upload/configuration/:site_name/:secret_key", function(req, res) {
-    var credentials = req.query;
-    console.log(credentials);
-    return res.json(req.query);
-});
 
 
-
+// Listen to port 3000
 app.listen(3000);
