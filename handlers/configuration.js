@@ -2,7 +2,7 @@
 var redis_client = require("../redis_client")["redisClient"];
 
 
-var configuration = function(req, res, next) {
+var set_configuration = function(req, res, next) {
     if(validate_config_elements(req.body)) {
         // Push the config for the site to redis and send status as success
         res.status(200).send("Success");
@@ -12,11 +12,16 @@ var configuration = function(req, res, next) {
 
 function validate_config_elements(body) {
     var config_elements = ["interval"];
-    var config = req.body;
-    for(key in config) {
-        if(!(key in config_elements)) {
+    console.log("keys in body");
+    for(key in body) {
+        console.log(key);
+        if(config_elements.indexOf(key) == -1) {
+            console.log(key + " not in allowed elements");
             return false;
         }
     }
     return true;
+}
+module.exports = {
+    "set": set_configuration
 }

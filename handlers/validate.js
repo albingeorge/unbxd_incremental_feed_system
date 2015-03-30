@@ -17,7 +17,6 @@ var validate = function(req, res, next) {
     };
 
     type = req.path.split("/")[2];
-    console.log(type);
 
     if(type in requirements) {
         for (var i = 0; i < requirements[type].length; i++) {

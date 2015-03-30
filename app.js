@@ -2,6 +2,7 @@
 var app = require("express")();
 var body_parser = require('body-parser');
 var key_management = require("./handlers/key_management")
+var configuration = require("./handlers/configuration")
 var authenticate = require("./handlers/authenticate")
 var validate = require("./handlers/validate")
 
@@ -32,6 +33,8 @@ app.post(
 // Sets the secret key
 // If a key already exists, validate that key from redis before changing the secret key
 app.post("/incremental-feed-upload/set-secret-key/:site_name/:secret_key?", key_management.set_secret_key);
+
+app.post("/incremental-feed-upload/configuration/:site_name/:secret_key", configuration.set);
 
 
 
