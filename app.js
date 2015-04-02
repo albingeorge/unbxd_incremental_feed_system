@@ -3,6 +3,7 @@ var app = require("express")();
 var body_parser = require('body-parser');
 var key_management = require("./handlers/key_management")
 var configuration = require("./handlers/configuration")
+var send_data = require("./handlers/send_data")
 var authenticate = require("./handlers/authenticate")
 var validate = require("./handlers/validate")
 
@@ -26,7 +27,8 @@ app.post(
 app.post(
     "/incremental-feed-upload/send-data/:site_name/:site_secret_key/:secret_key",
     validate.validate,
-    authenticate.authorize
+    authenticate.authorize,
+    send_data.send
 );
 
 
@@ -35,6 +37,8 @@ app.post(
 app.post("/incremental-feed-upload/set-secret-key/:site_name/:secret_key?", key_management.set_secret_key);
 
 app.post("/incremental-feed-upload/configuration/:site_name/:secret_key", configuration.set);
+
+
 
 
 
