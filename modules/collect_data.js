@@ -34,8 +34,6 @@ var add_product = function(site_name, product) {
     } else {
         return status_codes.UNIQUEID_MISSING;
     }
-
-
 }
 
 module.exports = {
