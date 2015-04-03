@@ -25,6 +25,7 @@ var validate = function(req, res, next) {
             }
         };
     }
+    console.log("Validation success");
     next();
 }
 
