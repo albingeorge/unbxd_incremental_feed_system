@@ -1,9 +1,9 @@
 // Imports
 var app = require("express")();
 var body_parser = require('body-parser');
-var key_management = require("./handlers/key_management")
+var secret_key_management = require("./handlers/secret_key_management")
 var configuration = require("./handlers/configuration")
-var send_data = require("./handlers/send_data")
+var push_product = require("./handlers/push_product")
 var authenticate = require("./handlers/authenticate")
 var validate = require("./handlers/validate")
 
@@ -25,11 +25,11 @@ app.post(
 );
 
 app.post(
-    "/incremental-feed-upload/send-data/:site_name/:site_secret_key/:secret_key",
+    "/incremental-feed-upload/push-product/:site_name/:site_secret_key/:secret_key",
     validate.validate,
     authenticate.authorize,
     // Send the data to be added to redis
-    send_data.send
+    push_product.push
 );
 
 
@@ -37,7 +37,7 @@ app.post(
     Sets the secret key
     If a key already exists, validate that key from redis before changing the secret key
 */
-app.post("/incremental-feed-upload/set-secret-key/:site_name/:secret_key?", key_management.set_secret_key);
+app.post("/incremental-feed-upload/set-secret-key/:site_name/:secret_key?", secret_key_management.set_secret_key);
 
 
 /*

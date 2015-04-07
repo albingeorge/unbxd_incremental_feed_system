@@ -38,11 +38,11 @@ A system which pools the product data and uploads it through the Unbxd feed uplo
     }
     ```
 
-3. Send data
+3. Push single product
 
     Type of request: POST
 
-    URL: ```localhost:3000/incremental-feed-upload/send-data/<site_name>/<site_secret_key>/<secret_key>```
+    URL: ```localhost:3000/incremental-feed-upload/push-product/<site_name>/<site_secret_key>/<secret_key>```
 
     Body Format:
     ```
