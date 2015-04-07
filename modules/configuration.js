@@ -26,9 +26,9 @@ var Configuration = function(site_name, cb) {
     this.site_name = site_name;
 
     // for validating a config field
-    var allowed_configs = ["interval", "data_store"];
+    var allowed_configs = ["interval", "datastore"];
 
-    var this_config = this.config = {"data_store": "1"};
+    var this_config = this.config = {"datastore": "1"};
 
 
     var get_current_config = function(self) {

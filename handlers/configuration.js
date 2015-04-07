@@ -14,7 +14,7 @@ var set_configuration_handler = function(req, res, next) {
                 console.log("Invalid config data.")
             }
         }
-        console.log(config.save());
+        config.save();
         res.status(200).send("Success");
     });
 
