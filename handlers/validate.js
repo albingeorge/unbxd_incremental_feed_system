@@ -9,7 +9,7 @@ var validate = function(req, res, next) {
         "set-secret-key": [
             "site_name"
         ],
-        "send-data": [
+        "push-product": [
             "site_name",
             "secret_key",
             "site_secret_key"
@@ -22,8 +22,12 @@ var validate = function(req, res, next) {
         for (var i = 0; i < requirements[type].length; i++) {
             if(!(requirements[type][i] in req.params)) {
                 res.status("400").send("Validation Failed");
+                return;
             }
         };
+    } else {
+        res.status("400").send("Validation Failed");
+        return;
     }
     console.log("Validation success");
     next();
