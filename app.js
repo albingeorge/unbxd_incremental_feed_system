@@ -17,11 +17,18 @@ app.use(body_parser.json());
 // Validate the data and then authenticate each request
 app.post(
     [
-        "/incremental-feed-upload/set-secret-key/:site_name/:secret_key?",
-        "/incremental-feed-upload/configuration/:site_name/:secret_key"
+        "/incremental-feed-upload/set-secret-key/:site_name/:secret_key?"
     ],
     validate.validate,
     authenticate.authorize_if_exists
+);
+
+app.post(
+    [
+        "/incremental-feed-upload/configuration/:site_name/:secret_key"
+    ],
+    validate.validate,
+    authenticate.authorize
 );
 
 app.post(
