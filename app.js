@@ -25,7 +25,9 @@ app.post(
 
 app.post(
     [
-        "/incremental-feed-upload/configuration/:site_name/:secret_key"
+        "/incremental-feed-upload/configuration/:site_name/:secret_key",
+        "/incremental-feed-upload/push-product/:site_name/:site_secret_key/:secret_key",
+        "/incremental-feed-upload/feed-upload/:site_name/:site_secret_key/:secret_key"
     ],
     validate.validate,
     authenticate.authorize
@@ -33,8 +35,12 @@ app.post(
 
 app.post(
     "/incremental-feed-upload/push-product/:site_name/:site_secret_key/:secret_key",
-    validate.validate,
-    authenticate.authorize,
+    // Send the data to be added to redis
+    push_product.push
+);
+
+app.post(
+    "/incremental-feed-upload/feed-upload/:site_name/:site_secret_key/:secret_key",
     // Send the data to be added to redis
     push_product.push
 );

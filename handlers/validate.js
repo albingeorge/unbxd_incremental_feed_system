@@ -13,6 +13,11 @@ var validate = function(req, res, next) {
             "site_name",
             "secret_key",
             "site_secret_key"
+        ],
+        "feed-upload": [
+            "site_name",
+            "secret_key",
+            "site_secret_key"
         ]
     };
 

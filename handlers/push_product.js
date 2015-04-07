@@ -1,8 +1,5 @@
 // Imports
-var redis_client = require("../redis_client")["redisClient"];
 var product = require("../modules/product");
-var key_management = require("../modules/key_management");
-
 
 var push_single_product = function(req, res, next) {
     /*
