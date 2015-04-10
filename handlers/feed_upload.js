@@ -1,0 +1,10 @@
+/*
+
+Get the current datastore
+Get all the products
+Flush the keys and products for the site
+Build the json file
+curl
+
+
+*/

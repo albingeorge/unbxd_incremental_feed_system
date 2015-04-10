@@ -15,16 +15,10 @@ app.use(body_parser.json());
 // ROUTES
 
 // Validate the data and then authenticate each request
-app.post(
-    [
-        "/incremental-feed-upload/set-secret-key/:site_name/:secret_key?"
-    ],
-    validate.validate,
-    authenticate.authorize_if_exists
-);
 
 app.post(
     [
+        "/incremental-feed-upload/set-secret-key/:site_name/:secret_key?",
         "/incremental-feed-upload/configuration/:site_name/:secret_key",
         "/incremental-feed-upload/push-product/:site_name/:site_secret_key/:secret_key",
         "/incremental-feed-upload/feed-upload/:site_name/:site_secret_key/:secret_key"

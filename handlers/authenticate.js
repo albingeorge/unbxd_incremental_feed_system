@@ -1,38 +1,22 @@
-var redis_client = require("../redis_client")["redisClient"];
+var authenticate = require("../models/authenticate");
 
 var authorize = function(req, res, next) {
-    redis_client.hget('secret_key', req.params.site_name, function(err, value) {
-        if("secret_key" in req.params && value == req.params.secret_key) {
-            console.log("Authentication success");
+    type = req.path.split("/")[2];
+    var strict = {
+        "configuration": true,
+        "set-secret-key": false,
+        "push-product": true,
+        "feed-upload": true
+    }
+    authenticate.authorize(req.params.site_name, req.params, strict[type], function(auth) {
+        if(auth == authenticate.status_codes["AUTH_SUCCESS"]) {
             next();
         } else {
-            res.status(403).send("Authentication failure");
-        }
-    });
-}
-
-/*
-    If secret key exists for a particular site, compare the secret keys given and the ones in redis
-    Else, pass
-*/
-var authorize_if_exists = function(req, res, next) {
-    redis_client.hget('secret_key', req.params.site_name, function(err, value) {
-        if(value == null) {
-            console.log("No secret key set for the given site");
-            next();
-        } else {
-            console.log("Secret key set for the given site");
-            if("secret_key" in req.params && value == req.params.secret_key) {
-                console.log("Authentication success");
-                next();
-            } else {
-                res.status(403).send("Authentication failure");
-            }
+            res.status(400).send("Authentication Failed");
         }
     });
 }
 
 module.exports = {
-    "authorize": authorize,
-    "authorize_if_exists": authorize_if_exists
+    "authorize": authorize
 }
