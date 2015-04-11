@@ -1,5 +1,5 @@
 // Imports
-var redis_client = require("../redis_client")["redisClient"];
+var config = require("../models/configuration");
 
 
 /*
@@ -30,15 +30,13 @@ var Configuration = function(site_name, cb) {
 
     var this_config = this.config = {"datastore": "ds_1"};
 
+    var this_errors = this.errors = {"validation": []}
+
 
     var get_current_config = function(self) {
-        console.log(self.config);
-        redis_client.hget("configs", site_name, function(err, config) {
-            if(config != null) {
-                this_config = JSON.parse(config);
-            }
-            console.log("Current configuration:");
-            console.log(this_config);
+        // Get the current config via model
+        config.get_current_configuration(site_name, function(current_config) {
+            this_config = current_config;
             cb();
         });
     }
@@ -46,20 +44,23 @@ var Configuration = function(site_name, cb) {
     get_current_config(this);
 
     this.set_config = function(config_key, value) {
-        console.log("Setting config");
-        console.log(config_key+":" + value);
         if(validate_config(config_key, value)) {
             this_config[config_key] = value;
-            console.log("Config Now:");
-            console.log(this_config);
             return true;
         }
         return false;
     }
 
+    this.swap_data_store = function() {
+        this_config["datastore"] = ("datastore" in this_config && this_config["datastore"] == "ds_1") ? "ds_2" : "ds_1";
+    }
+
     this.save = function() {
-        console.log(JSON.stringify(this_config));
-        return redis_client.hset("configs", this.site_name, JSON.stringify(this_config));
+        if(!errors_exist()) {
+            return config.set_configuration(this.site_name, this_config);
+        } else {
+            return false;
+        }
     }
 
     this.get = function(config_key) {
@@ -69,13 +70,16 @@ var Configuration = function(site_name, cb) {
         return false;
     }
 
+    var errors_exist = function() {
+        return (this_errors["validation"].length > 0);
+    }
+
     var validate_config = function(config_key, value) {
         // If the config key is valid
         if(allowed_configs.indexOf(config_key) >= 0) {
-            console.log("Validation success");
             return true;
         }
-        console.log("Validation failed");
+        this_errors['validation'].push(config_key);
         return false;
     }
 }

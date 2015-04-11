@@ -1,6 +1,6 @@
 // Imports
 var redis_client = require("../redis_client")["redisClient"];
-var key_manager = require("../modules/key_management");
+var key_manager = require("../models/key_management");
 
 
 // var product = new Product("site_name", {"uniqueId": "AB001", "stock": "5"}, function() {

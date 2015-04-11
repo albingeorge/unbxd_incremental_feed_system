@@ -12,7 +12,7 @@ var authorize = function(req, res, next) {
         if(auth == authenticate.status_codes["AUTH_SUCCESS"]) {
             next();
         } else {
-            res.status(400).send("Authentication Failed");
+            res.status(403).json({"status": "authentication failed"});
         }
     });
 }

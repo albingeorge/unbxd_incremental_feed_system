@@ -26,9 +26,14 @@ var get_all_products_from_site = function(site_name) {
     return redis_client.smembers("keys:products:" + site_name);
 }
 
+var set_secret_key = function(site_name, secret_name) {
+    redis_client.hset("secret_key", req.params.site_name, req.body.secret_key);
+}
+
 module.exports = {
     "set_key_site_name": set_key_site_name,
     "set_key_products": set_key_products,
     "get_all_sites": get_all_sites,
-    "get_all_products_from_site": get_all_products_from_site
+    "get_all_products_from_site": get_all_products_from_site,
+    "set_secret_key": set_secret_key
 }
