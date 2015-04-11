@@ -55,7 +55,8 @@ var Product = function(site_name, product, cb) {
         return false;
     }
 
-    build_product(this);
+    // Do we really need this?
+    // build_product(this);
 
     this.push = function() {
         key_manager.set_key_products(this.site_name, this.uniqueId);

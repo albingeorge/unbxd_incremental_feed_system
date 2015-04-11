@@ -34,11 +34,8 @@ var validate = function(req, res, next) {
         res.status("400").send("Validation Failed");
         return;
     }
-    console.log("Validation success");
     next();
 }
-
-
 
 module.exports = {
     "validate": validate
